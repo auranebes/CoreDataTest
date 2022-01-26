@@ -58,49 +58,6 @@ class TaskViewController: UITableViewController {
     @objc private func addNewTask() {
         showSaveAlert(with: "Новая задача", and: "Что хотите записать?")
     }
-    
-    // MARK: - UIAllertControllers
-    
-    private func showSaveAlert(with title: String, and message: String) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let saveAction = UIAlertAction(title: "Сохранить", style: .default) { _ in
-            guard let task = alert.textFields?.first?.text, !task.isEmpty else { return }
-            self.taskData.saveTask(task, self.tableView)
-        }
-        
-        alert.view.layer.backgroundColor = CGColor(red: 217/255, green: 137/255, blue: 137/255, alpha: 199/255)
-        alert.view.layer.cornerRadius = 15
-        
-        let cancelAction = UIAlertAction(title: "Отмена", style: .destructive)
-        alert.addAction(saveAction)
-        alert.addAction(cancelAction)
-        alert.addTextField { textField in
-            textField.placeholder = "Новая задача"
-        }
-        present(alert, animated: true)
-    }
-    
-    private func showEditAlert(with title: String, and message: String, indexPath: IndexPath) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let saveAction = UIAlertAction(title: "Сохранить", style: .default) { _ in
-            guard let task = alert.textFields?.first?.text, !task.isEmpty else { return }
-            self.taskData.editTask(task, indexPath)
-            self.tableView.reloadData()
-        }
-        
-        alert.view.layer.backgroundColor = CGColor(red: 247/255, green: 167/255, blue: 92/255, alpha: 199/255)
-        alert.view.layer.cornerRadius = 15
-        
-        let cancelAction = UIAlertAction(title: "Отмена", style: .destructive)
-        alert.addAction(saveAction)
-        alert.addAction(cancelAction)
-        alert.addTextField { textField in
-            let task = self.taskData.tasksList[indexPath.row]
-            textField.text = task.name
-        }
-        present(alert, animated: true)
-    }
-
 }
 
     // MARK: - UITableViewDataSource
@@ -152,4 +109,48 @@ extension TaskViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
+    
+    // MARK: - UIAllertControllers
+    
+    private func showSaveAlert(with title: String, and message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let saveAction = UIAlertAction(title: "Сохранить", style: .default) { _ in
+            guard let task = alert.textFields?.first?.text, !task.isEmpty else { return }
+            self.taskData.saveTask(task, self.tableView)
+        }
+        
+        alert.view.layer.backgroundColor = CGColor(red: 217/255, green: 137/255, blue: 137/255, alpha: 199/255)
+        alert.view.layer.cornerRadius = 15
+        
+        let cancelAction = UIAlertAction(title: "Отмена", style: .destructive)
+        alert.addAction(saveAction)
+        alert.addAction(cancelAction)
+        alert.addTextField { textField in
+            textField.placeholder = "Новая задача"
+        }
+        present(alert, animated: true)
+    }
+    
+    private func showEditAlert(with title: String, and message: String, indexPath: IndexPath) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let saveAction = UIAlertAction(title: "Сохранить", style: .default) { _ in
+            guard let task = alert.textFields?.first?.text, !task.isEmpty else { return }
+            self.taskData.editTask(task, indexPath)
+            self.tableView.reloadData()
+        }
+        
+        alert.view.layer.backgroundColor = CGColor(red: 247/255, green: 167/255, blue: 92/255, alpha: 199/255)
+        alert.view.layer.cornerRadius = 15
+        
+        let cancelAction = UIAlertAction(title: "Отмена", style: .destructive)
+        alert.addAction(saveAction)
+        alert.addAction(cancelAction)
+        alert.addTextField { textField in
+            let task = self.taskData.tasksList[indexPath.row]
+            textField.text = task.name
+        }
+        present(alert, animated: true)
+    }
+
 }
+
